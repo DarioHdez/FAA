@@ -1,25 +1,19 @@
-"""
-@author: Andrés Martos
-@author: Darío Adrián Hernández Barroso
-
-@grupo: 1461
-@pareja: 10
-"""
-
+# -*- coding: utf-8 -*-
 import numpy as np
 
 
 class Datos(object):
     TiposDeAtributos = ('Continuo', 'Nominal')
-    tipoAtributos = []
-    nombreAtributos = []
-    nominalAtributos = []
-    datos = []
-    diccionarios = []
-
 
     def __init__(self, nombreFichero):
+        self.tipoAtributos = []
+        self.nombreAtributos = []
+        self.nominalAtributos = []
+        self.datos = []
+        self.diccionarios = []
         fichero = open(nombreFichero, 'r')
+        columnas_dic = []
+
 
         # Leemos las 3 primeras lineas del fichero
         nDatos = int(fichero.readline())
@@ -29,11 +23,11 @@ class Datos(object):
         columnas = len(self.tipoAtributos) # Variable auxiliar
 
         # Comprobamos que todos los atributos sean nominales o continuos
-        for atributo in Datos.tipoAtributos:
+        for atributo in self.tipoAtributos:
             if atributo == 'Continuo':
-                Datos.nominalAtributos.append(False)
+                self.nominalAtributos.append(False)
             elif atributo == 'Nominal':
-                Datos.nominalAtributos.append(True)
+                self.nominalAtributos.append(True)
             else:
                 raise (ValueError)
 
@@ -43,19 +37,34 @@ class Datos(object):
 
         self.diccionarios = [{} for i in  range(len(self.tipoAtributos))]
 
-        for i in range(nDatos):
-            linea = fichero.readline().split('\n')[0].split(",")  # linea = [data,data,data....]
-            for j in range(len(linea)):
-                if self.tipoAtributos[j] == 'Nominal':
-                    if not linea[j] in self.diccionarios[j]:    # Comprobamos si ese data esta en un diccionario
-                        self.diccionarios[j].update({linea[j]:contador[j]})   # Añadimos en caso de que no esté
-                        contador[j] += 1
+        # Correción para poner los diccionarios, ahora esta todo en orden (fallo 13)
+        matriz = np.array([x.split('\n')[0].split(",")   for x in fichero.readlines()])
+        for i in range(columnas):
+            col = sorted(set(matriz[:,i]))
 
-                    fila[j] = self.diccionarios[j].get(linea[j])       # Añadimos a la fila el valor del diccionario
-                else:
-                    fila[j] = linea[j]    # Si es una variable continua la añadimos directamente
+            if self.nominalAtributos[i] == True :
+                for j in col:
+                    self.diccionarios[i].update({j:col.index(j)})
 
-            self.datos = np.vstack([self.datos,[fila]])   # Añadimos la fila a datos
+        #Cerramos el fichero (fallo 2)
+        fichero.close()
+
+        with open(nombreFichero) as f:
+            f.readline()
+            f.readline()
+            f.readline()
+
+            for i in range(nDatos):
+                linea = f.readline().split('\n')[0].split(",")  # linea = [data,data,data....]
+                for j in range(len(linea)):
+                    if self.tipoAtributos[j] == 'Nominal':
+                        fila[j] = self.diccionarios[j].get(linea[j])       # Anyadimos a la fila el valor del diccionario
+                    else:
+                        fila[j] = float(linea[j])    # Si es una variable continua la anyadimos directamente, convirtiendola a float primero (correción del fallo 12)
+
+                self.datos = np.vstack([self.datos,[fila]])   # Anyadimos la fila a datos
+
+
 
     def extraeDatos(self,idx):
         filas = len(idx)
@@ -68,10 +77,3 @@ class Datos(object):
             data[i] = self.datos[idx[i]]
 
         return data
-
-"""
-d = Datos('balloons.data')
-print(d.datos)
-print("\n\n SubMatriz: \n\n")
-print(d.extraeDatos([1,2,3,4]))
-"""
