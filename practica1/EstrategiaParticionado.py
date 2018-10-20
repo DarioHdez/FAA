@@ -19,6 +19,10 @@ class EstrategiaParticionado(object):
   __metaclass__ = ABCMeta
 
   # Atributos: deben rellenarse adecuadamente para cada estrategia concreta: nombreEstrategia, numeroParticiones, listaParticiones. Se pasan en el constructor
+  nombreEstrategia = ""
+  numeroParticiones = 0
+  particiones = []
+
 
   @abstractmethod
   def creaParticiones(self,datos,seed=None):
@@ -81,3 +85,4 @@ class ValidacionBootstrap(EstrategiaParticionado):
     p.indicesTest = [n for n in range(datos.shape[0]) if n not in p.indicesTrain]
 
     return p
+
