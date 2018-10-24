@@ -71,7 +71,6 @@ class Datos(object):
         columnas = self.datos.shape[1]
 
         data = np.zeros((filas,columnas))
-        #ret = [ [] for i in self.datos if i in idx ]
 
         for i in range(filas):
             data[i] = self.datos[idx[i]]
