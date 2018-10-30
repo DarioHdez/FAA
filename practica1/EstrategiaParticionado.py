@@ -36,6 +36,8 @@ class ValidacionSimple(EstrategiaParticionado):
     # Crea particiones segun el metodo tradicional de division de los datos segun el porcentaje deseado.
     # Devuelve una lista de particiones (clase Particion)
     def creaParticiones(self, datos, seed=None):
+        self.nombreEstrategia = 'Validacion Simple'
+        self.numeroParticiones = 1
         p = Particion()
         num = datos.shape[0] / 2
         random.seed(seed)
@@ -47,29 +49,37 @@ class ValidacionSimple(EstrategiaParticionado):
 
         p.indicesTest = [n for n in range(datos.shape[0]) if n not in p.indicesTrain]
 
-        return p
+        self.particiones.append(p)
+
 
 
 #####################################################################################################
 class ValidacionCruzada(EstrategiaParticionado):
 
+
+    def __init__(self, nfolds=10):
+        self.nfolds = nfolds
+    
+
     # Crea particiones segun el metodo de validacion cruzada.
     # El conjunto de entrenamiento se crea con las nfolds-1 particiones y el de test con la particion restante
     # Esta funcion devuelve una lista de particiones (clase Particion)
     def creaParticiones(self, datos, seed=None):
+        self.nombreEstrategia = 'Validacion Cruzada'
         p = Particion()
         num = datos.shape[0] / 3  # check this
         random.seed(seed)
 
         # Vamos a trabajar con los indices directamente
         lista = datos.tolist()
-        listaInd = [n for n in range(len(lista))]
-        random.shuffle(listaInd)
+        for i in range(self.nfolds):
+            listaInd = [n for n in range(len(lista))]
+            random.shuffle(listaInd)
 
-        p.indicesTrain = [n for n in listaInd if listaInd.index(n) <= num * 2]
-        p.indicesTest = [n for n in listaInd if n not in p.indicesTrain]
-
-        return p
+            p.indicesTrain = [n for n in listaInd if listaInd.index(n) <= num * 2]
+            p.indicesTest = [n for n in listaInd if n not in p.indicesTrain]
+            self.particiones.append(p)
+            p  = Particion()
 
 
 #####################################################################################################
@@ -78,6 +88,7 @@ class ValidacionBootstrap(EstrategiaParticionado):
     # Crea particiones segun el metodo de validacion por bootstrap.
     # Esta funcion devuelve una lista de particiones (clase Particion)
     def creaParticiones(self, datos, seed=None):
+        self.nombreEstrategia = 'Validacion Bootstrap'
         p = Particion()
         num = datos.shape[0]
         random.seed(seed)
@@ -85,4 +96,4 @@ class ValidacionBootstrap(EstrategiaParticionado):
         p.indicesTrain = [random.randint(0, datos.shape[0] - 1) for n in range(num)]
         p.indicesTest = [n for n in range(datos.shape[0]) if n not in p.indicesTrain]
 
-        return p
+        self.particiones.append(p)
