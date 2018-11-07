@@ -25,22 +25,18 @@ print('\n')
 # print(dataset_german.datos)
 
 
-d = Datos('german.data')
+d = Datos('ConjuntosDatos/example1.data')
 
 # print("\n\n SubMatriz: \n\n")
 # print(d.extraeDatos([1,2,3,5,7,8]))
-estrategiaSimple = ValidacionSimple()
-estrategiaCruzada = ValidacionCruzada(10)
-nBayes = ClasificadorNaiveBayes()
+e = ValidacionSimple()
+e.creaParticiones(d.datos)
 
-errorNBayes = nBayes.validacion(estrategiaSimple,d,nBayes,seed=None, laplace=True)
-print("Error naive simple:\n")
-print(errorNBayes[0])
-errorNBayes = nBayes.validacion(estrategiaCruzada,d,nBayes,seed=None, laplace=True)
-print("\nMedia de errores naive cruzada:\n")
-print(np.mean(errorNBayes))
+print(d.datos[:5])
 
-# e = ep.ValidacionCruzada()
-# particiones = e.creaParticiones(d.datos)
-# print(particiones.indicesTrain)
-# print(particiones.indicesTest)
+print('\n')
+print(d.normalizarDatos(d.extraeDatos(e.particiones[0].indicesTrain))[:5])
+
+
+
+
