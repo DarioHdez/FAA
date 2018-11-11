@@ -199,3 +199,40 @@ def gauss(media,varianza, num):
     exponente = - (math.pow((num-media), 2) / (2*varianza))
     base = 1 / math.sqrt(2*math.pi*varianza)
     return base*math.pow(math.e,exponente)
+
+
+#########################################################################
+
+class ClasificadorVecinosProximos(Clasificador):
+    k = 1
+    train = 0
+    indicestrain = np.array(())
+
+    def __init__(self, K):
+        self.k = K
+
+    def entrenamiento(self, datostrain, atributosDiscretos=None, diccionario=None, laPlace=True):
+        self.indicestrain = datostrain
+
+    # TODO: implementar
+    def clasifica(self, datostest, atributosDiscretos=None, diccionario=None):
+        k = self.k
+        distancia = []
+
+        for i, dato in enumerate(datostest):
+            if (len(dato) == len(atributosDiscretos)):
+                dato = dato[0:-1]
+
+            dist_euclidea = lambda x, y: (x - y) ** 2
+            distancias = map(lambda punto: [(sum(map(dist_euclidea, dato, punto[0:-1]))) ** 0.5, punto[-1]],self.indicestrain)
+
+
+            distancias = np.array((distancias))
+            distancias = distancias[distancias[:, 0].argsort()]
+
+      
+            claseGanadora = np.unique(distancias[range(k), 1], return_counts=True)
+            clase = claseGanadora[0][np.argmax(claseGanadora[0])]
+            distancia.append(clase)
+        distancia = np.array((distancia))
+        return distancia
