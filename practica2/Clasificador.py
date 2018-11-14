@@ -7,6 +7,7 @@ import EstrategiaParticionado
 import math
 import operator
 import numpy as np
+from scipy.special import expit
 
 
 class Clasificador(object):
@@ -270,8 +271,8 @@ class ClasificadorRegresionLogistica(Clasificador):
         self.nEpocas = nEpocas
         self.cteAprendizaje = cteAprendizaje
 
-    def entrenamiento(self, datostrain, atributosDiscretos=None, diccionario=None):
-        numColumnas = self.datostrain.shape[1]
+    def entrenamiento(self, datostrain, atributosDiscretos=None, diccionario=None,laplace=None):
+        numColumnas = datostrain.shape[1]
 
         #generamos vector aleatorio entre -0.5 y 0..5
         W = np.random.uniform(low=-0.5, high=0.5, size=(numColumnas,))
@@ -286,9 +287,9 @@ class ClasificadorRegresionLogistica(Clasificador):
                 wx = np.dot(W, x[:-1])
 
                 #sigmoidal del resultado
-                sigmo=  1 / (1 + math.exp(-wx))
+                sigmo=  expit(wx)
 
-                W = W - (self.cteAprendizaje * (sigmo - (1 - self.datostrain[-1]))) *x[:-1]
+                W = W - (self.cteAprendizaje * (sigmo - (1 - datostrain[-1]))) *x[:-1]
 
             self.W=W
 
@@ -306,11 +307,11 @@ class ClasificadorRegresionLogistica(Clasificador):
 
             wx = np.dot(self.W, x[:-1])
 
-            sigmo = 1 / (1 + math.exp(-wx))
+            sigmo = expit(wx)
 
             if sigmo >= 0.5:
                 ret.append(1)
             else: ret.append(0)
 
 
-        return ret
+        return np.array(ret)
