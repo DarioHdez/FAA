@@ -91,20 +91,17 @@ class Datos(object):
 
                 column = np.array(datostrain[:,i])
 
-                medias[i] = np.mean(column)
-                desviaciones[i] = np.std(column)
+                self.medias[i] = np.mean(column)
+                self.desviaciones[i] = np.std(column)
             else:
-                medias[i] = None
-                desviaciones[i] = None
+                self.medias[i] = None
+                self.desviaciones[i] = None
 
-        return medias,desviaciones
-
-    def normalizarDatos(self,datos):
+    def normalizarDatos(self,datos=None):
 
         for i in range(len(self.medias)):
             if not self.medias[i] == None:
-                column = np.array(datos[:,i])
-                print(len(column))
+                column = np.array(self.datos[:,i])
 
                 media_atributo = self.medias[i]
                 desviacion_atributo = self.desviaciones[i]
@@ -115,8 +112,7 @@ class Datos(object):
                 for j in list(column):
                     normalized_data.append((j - media_atributo)/desviacion_atributo)
 
-                datos[:,i] = normalized_data # Estamos pisando los datos a tope
+                self.datos[:,i] = normalized_data # Estamos pisando los datos a tope
 
 
 
-        

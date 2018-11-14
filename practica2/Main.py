@@ -8,7 +8,7 @@
 """
 
 from Datos import Datos
-from Clasificador import  ClasificadorNaiveBayes
+from Clasificador import  ClasificadorNaiveBayes,ClasificadorVecinosProximos,ClasificadorRegresionLogistica
 from EstrategiaParticionado import  ValidacionCruzada,ValidacionSimple,ValidacionBootstrap
 
 import numpy as np
@@ -25,17 +25,21 @@ print('\n')
 # print(dataset_german.datos)
 
 
-d = Datos('ConjuntosDatos/example1.data')
+d = Datos('ConjuntosDatos/example3.data')
 
 # print("\n\n SubMatriz: \n\n")
 # print(d.extraeDatos([1,2,3,5,7,8]))
 e = ValidacionSimple()
 e.creaParticiones(d.datos)
 
-print(d.datos[:5])
+d.calcularMediasDesv(d.extraeDatos(e.particiones[0].indicesTrain))
+d.normalizarDatos()
 
 print('\n')
-print(d.normalizarDatos(d.extraeDatos(e.particiones[0].indicesTrain))[:5])
+
+c = ClasificadorVecinosProximos(51)
+
+print(c.validacion(e,d,c,seed=None,laplace=False))
 
 
 

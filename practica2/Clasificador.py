@@ -217,10 +217,10 @@ class ClasificadorVecinosProximos(Clasificador):
         distance = 0
         for x in range(length):
             distance += pow((instance1[x] - instance2[x]), 2)
-        return math.sqrt(distance)
+        return distance**0.5
 
 
-    def entrenamiento(self, datostrain, atributosDiscretos=None, diccionario=None, laPlace=True):
+    def entrenamiento(self, datostrain, atributosDiscretos=None, diccionario=None, laplace=True):
         self.indicestrain = datostrain
 
     def clasifica(self, datostest, atributosDiscretos=None, diccionario=None):
@@ -232,30 +232,34 @@ class ClasificadorVecinosProximos(Clasificador):
         length = len(diccionario) - 1
 
         # Para cada punto
-        for j in range(len(datostest.shape[0])):
+        for j in range(datostest.shape[0]):
             # Sacamos los vecinos
             for i in range(len(datostest)):
-                dist = self.distanciaEuclidea(self.indicestrain, datostest[j], length)
+                dist = self.distanciaEuclidea(self.indicestrain[i], datostest[j], length)
                 distancia.append((self.indicestrain[i], dist))
 
-                distancia.sort(key=operator.itemgetter(1))
+
+            distancia.sort(key=operator.itemgetter(1))
 
             k_vecinos = distancia[:k]
 
             # Sacamos la clase predominante de k_vecinos
             for vecino in k_vecinos:
-                clase = vecino[-1]
+
+                clase = vecino[0][-1]
 
                 if not clase in clases:
                     clases.update({clase:1})
                 else:
                     clases[clase] += 1
 
-            max = max(clases.items(),key=operator.itemgetter(1))[0]
+                # print('dict clases: ', clases)
 
-            clasificacion.append(max)
+            decision = max(clases.items(),key=operator.itemgetter(1))[0]
 
-        return clasificacion
+            clasificacion.append(decision)
+
+        return np.array(clasificacion)
 
 #########################################################################
 class ClasificadorRegresionLogistica(Clasificador):
