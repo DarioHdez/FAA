@@ -2,7 +2,6 @@
 """
 @author: Andrés Martos
 @author: Darío Adrián Hernández Barroso
-
 @grupo: 1461
 @pareja: 10
 """
@@ -25,11 +24,11 @@ print('\n')
 # print(dataset_german.datos)
 
 
-d = Datos('ConjuntosDatos/example3.data')
+d = Datos('ConjuntosDatos/example1.data')
 
 # print("\n\n SubMatriz: \n\n")
 # print(d.extraeDatos([1,2,3,5,7,8]))
-e = ValidacionSimple()
+e = ValidacionCruzada()
 e.creaParticiones(d.datos)
 
 d.calcularMediasDesv(d.extraeDatos(e.particiones[0].indicesTrain))
@@ -37,9 +36,9 @@ d.normalizarDatos()
 
 print('\n')
 
-c = ClasificadorVecinosProximos(51)
+c =ClasificadorRegresionLogistica(nEpocas=20)
 
-print(c.validacion(e,d,c,seed=None,laplace=False))
+print(np.mean(c.validacion(e,d,c,seed=None,laplace=False)))
 
 
 
