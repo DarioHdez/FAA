@@ -204,35 +204,109 @@ def gauss(media,varianza, num):
 #########################################################################
 
 class ClasificadorVecinosProximos(Clasificador):
-    k = 1
+
     train = 0
     indicestrain = np.array(())
 
-    def __init__(self, K):
+    def __init__(self, K=1):
+
         self.k = K
+
+    @staticmethod
+    def distanciaEuclidea(instance1, instance2, length):
+        distance = 0
+        for x in range(length):
+            distance += pow((instance1[x] - instance2[x]), 2)
+        return math.sqrt(distance)
+
 
     def entrenamiento(self, datostrain, atributosDiscretos=None, diccionario=None, laPlace=True):
         self.indicestrain = datostrain
 
-    # TODO: implementar
     def clasifica(self, datostest, atributosDiscretos=None, diccionario=None):
         k = self.k
         distancia = []
+        clases = {}
+        clasificacion = []
 
-        for i, dato in enumerate(datostest):
-            if (len(dato) == len(atributosDiscretos)):
-                dato = dato[0:-1]
+        length = len(diccionario) - 1
 
-            dist_euclidea = lambda x, y: (x - y) ** 2
-            distancias = map(lambda punto: [(sum(map(dist_euclidea, dato, punto[0:-1]))) ** 0.5, punto[-1]],self.indicestrain)
+        # Para cada punto
+        for j in range(len(datostest.shape[0])):
+            # Sacamos los vecinos
+            for i in range(len(datostest)):
+                dist = self.distanciaEuclidea(self.indicestrain, datostest[j], length)
+                distancia.append((self.indicestrain[i], dist))
+
+                distancia.sort(key=operator.itemgetter(1))
+
+            k_vecinos = distancia[:k]
+
+            # Sacamos la clase predominante de k_vecinos
+            for vecino in k_vecinos:
+                clase = vecino[-1]
+
+                if not clase in clases:
+                    clases.update({clase:1})
+                else:
+                    clases[clase] += 1
+
+            max = max(clases.items(),key=operator.itemgetter(1))[0]
+
+            clasificacion.append(max)
+
+        return clasificacion
+
+#########################################################################
+class ClasificadorRegresionLogistica(Clasificador):
+    datostrain = None
+    W=None
+
+    def __init__(self, nEpocas=0, cteAprendizaje=1):
+        self.nEpocas = nEpocas
+        self.cteAprendizaje = cteAprendizaje
+
+    def entrenamiento(self, datostrain, atributosDiscretos=None, diccionario=None):
+        numColumnas = self.datostrain.shape[1]
+
+        #generamos vector aleatorio entre -0.5 y 0..5
+        W = np.random.uniform(low=-0.5, high=0.5, size=(numColumnas,))
+
+        for e in range(self.nEpocas):
+
+            for i in range(datostrain.shape[0]):
+                #añadimos un 1 al inicio
+                x = np.insert(datostrain[i], 0, 1)
+
+                #vector por nuestra muestra
+                wx = np.dot(W, x[:-1])
+
+                #sigmoidal del resultado
+                sigmo=  1 / (1 + math.exp(-wx))
+
+                W = W - (self.cteAprendizaje * (sigmo - (1 - self.datostrain[-1]))) *x[:-1]
+
+            self.W=W
+
+    def clasifica(self, datostest, atributosDiscretos=None, diccionario=None):
+
+        numFilas = datostest.shape[0]
+        numColumnas = datostest.shape[1]
+
+        ret = []
 
 
-            distancias = np.array((distancias))
-            distancias = distancias[distancias[:, 0].argsort()]
+        for dato in datostest:
 
-      
-            claseGanadora = np.unique(distancias[range(k), 1], return_counts=True)
-            clase = claseGanadora[0][np.argmax(claseGanadora[0])]
-            distancia.append(clase)
-        distancia = np.array((distancia))
-        return distancia
+            x = np.insert(dato, 0, 1)
+
+            wx = np.dot(self.W, x[:-1])
+
+            sigmo = 1 / (1 + math.exp(-wx))
+
+            if sigmo >= 0.5:
+                ret.append(1)
+            else: ret.append(0)
+
+
+        return ret

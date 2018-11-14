@@ -83,8 +83,8 @@ class Datos(object):
         indices = range(len(self.nominalAtributos))
         indices_continuos = [n for n in indices if not self.nominalAtributos[n]]
 
-        medias = [0]*len(self.nominalAtributos)
-        desviaciones = [0]*len(self.nominalAtributos)
+        self.medias = [0]*len(self.nominalAtributos)
+        self.desviaciones = [0]*len(self.nominalAtributos)
 
         for i in range(len(self.nominalAtributos)):
             if i in indices_continuos:
@@ -101,15 +101,13 @@ class Datos(object):
 
     def normalizarDatos(self,datos):
 
-        medias,desviaciones = self.calcularMediasDesv(datostrain=datos)
-
-        for i in range(len(medias)):
-            if not medias[i] == None:
+        for i in range(len(self.medias)):
+            if not self.medias[i] == None:
                 column = np.array(datos[:,i])
                 print(len(column))
 
-                media_atributo = medias[i]
-                desviacion_atributo = desviaciones[i]
+                media_atributo = self.medias[i]
+                desviacion_atributo = self.desviaciones[i]
 
                 normalized_data = []
 
@@ -120,4 +118,5 @@ class Datos(object):
                 datos[:,i] = normalized_data # Estamos pisando los datos a tope
 
 
-        return datos
+
+        
