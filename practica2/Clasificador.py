@@ -60,6 +60,7 @@ class Clasificador(object):
         errores = []
         # Validacion Simple
         # falta poner argumentos
+        print('Entro a validacion\n ')
         if particionado.nombreEstrategia == "Validacion Simple" or particionado.nombreEstrategia == "Validacion Bootstrap":
             clasificador.entrenamiento(datostrain = dataset.extraeDatos(particionado.particiones[0].indicesTrain),atributosDiscretos=dataset_atributos_discretos, diccionario=dataset_diccionario,laplace=laplace)
 
@@ -282,7 +283,7 @@ class ClasificadorRegresionLogistica(Clasificador):
             for i in range(datostrain.shape[0]):
                 #añadimos un 1 al inicio
                 x = np.insert(datostrain[i], 0, 1)
-
+                
                 #vector por nuestra muestra
                 wx = np.dot(W, x[:-1])
 
@@ -300,12 +301,12 @@ class ClasificadorRegresionLogistica(Clasificador):
 
         ret = []
 
-
         for dato in datostest:
 
-            x = np.insert(dato, 0, 1)
+            x = np.ones(3)
+            x[1:3] = dato[0:2]
 
-            wx = np.dot(self.W, x[:-1])
+            wx = np.dot(self.W, x)
 
             sigmo = expit(wx)
 
