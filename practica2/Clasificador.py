@@ -231,31 +231,31 @@ class ClasificadorVecinosProximos(Clasificador):
         clases = {}
         clasificacion = []
 
-        length = len(diccionario) - 1
-
+        length = len(datostest[0]) - 1
         # Para cada punto
         for j in range(datostest.shape[0]):
+            print('\nLoop: ',j)
             # Sacamos los vecinos
-            for i in range(len(datostest)):
-                dist = self.distanciaEuclidea(self.indicestrain[i], datostest[j], length)
+            for i in range(len(self.indicestrain)):
+                dist = self.distanciaEuclidea(datostest[j],self.indicestrain[i], length)
                 distancia.append((self.indicestrain[i], dist))
 
 
             distancia.sort(key=operator.itemgetter(1))
 
-            k_vecinos = distancia[:k]
+            k_vecinos = []
+            for x in range(k):
+                k_vecinos.append(distancia[x][0])
 
             # Sacamos la clase predominante de k_vecinos
-            for vecino in k_vecinos:
+            for i in range(len(k_vecinos)):
 
-                clase = vecino[0][-1]
+                clase = k_vecinos[i][-1]
 
                 if not clase in clases:
-                    clases.update({clase:1})
+                    clases[clase] = 1
                 else:
                     clases[clase] += 1
-
-                # print('dict clases: ', clases)
 
             decision = max(clases.items(),key=operator.itemgetter(1))[0]
 
@@ -283,7 +283,7 @@ class ClasificadorRegresionLogistica(Clasificador):
             for i in range(datostrain.shape[0]):
                 #añadimos un 1 al inicio
                 x = np.insert(datostrain[i], 0, 1)
-                
+
                 #vector por nuestra muestra
                 wx = np.dot(W, x[:-1])
 
