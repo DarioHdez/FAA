@@ -60,7 +60,6 @@ class Clasificador(object):
         errores = []
         # Validacion Simple
         # falta poner argumentos
-        print('Entro a validacion\n ')
         if particionado.nombreEstrategia == "Validacion Simple" or particionado.nombreEstrategia == "Validacion Bootstrap":
             clasificador.entrenamiento(datostrain = dataset.extraeDatos(particionado.particiones[0].indicesTrain),atributosDiscretos=dataset_atributos_discretos, diccionario=dataset_diccionario,laplace=laplace)
 
@@ -74,7 +73,7 @@ class Clasificador(object):
                 clasificador.entrenamiento(datostrain=dataset.extraeDatos(particionado.particiones[i].indicesTrain),atributosDiscretos=dataset_atributos_discretos, diccionario=dataset_diccionario, laplace=laplace)
 
                 pred = clasificador.clasifica(datostest=dataset.extraeDatos(particionado.particiones[i].indicesTest),atributosDiscretos=dataset_atributos_discretos, diccionario=dataset_diccionario)
-
+                
                 errores.append(clasificador.error(datos=dataset.extraeDatos(particionado.particiones[i].indicesTest),pred=pred))
 
                 err = clasificador.error(datos=dataset.extraeDatos(particionado.particiones[i].indicesTest), pred=pred)
@@ -234,12 +233,10 @@ class ClasificadorVecinosProximos(Clasificador):
         length = len(datostest[0]) - 1
         # Para cada punto
         for j in range(datostest.shape[0]):
-            print('\nLoop: ',j)
             # Sacamos los vecinos
             for i in range(len(self.indicestrain)):
                 dist = self.distanciaEuclidea(datostest[j],self.indicestrain[i], length)
                 distancia.append((self.indicestrain[i], dist))
-
 
             distancia.sort(key=operator.itemgetter(1))
 

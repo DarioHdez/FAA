@@ -22,8 +22,6 @@ def plotModel(x, y, clase, clf, title, diccionarios):
     else:
         z = clf.predict_proba(np.c_[xx.ravel(), yy.ravel()])[:, 1]
 
-    print('\n------- Clasificacion terminada -----')
-
     z = z.reshape(xx.shape)
     cm = plt.cm.RdBu
     cm_bright = ListedColormap(['#FF0000', '#0000FF'])

@@ -67,15 +67,15 @@ class Datos(object):
 
 
     def extraeDatos(self,idx):
-        filas = len(idx)
-        columnas = self.datos.shape[1]
+        # filas = len(idx)
+        # columnas = self.datos.shape[1]
+        #
+        # data = np.zeros((filas,columnas))
+        #
+        # for i in range(filas):
+        #     data[i] = self.datos[idx[i]]
 
-        data = np.zeros((filas,columnas))
-
-        for i in range(filas):
-            data[i] = self.datos[idx[i]]
-
-        return data
+        return self.datos[idx]
 
 
     def calcularMediasDesv(self,datostrain):
@@ -112,7 +112,4 @@ class Datos(object):
                 for j in list(column):
                     normalized_data.append((j - media_atributo)/desviacion_atributo)
 
-                self.datos[:,i] = normalized_data # Estamos pisando los datos a tope
-
-
-
+                self.datos[:,i] = normalized_data
