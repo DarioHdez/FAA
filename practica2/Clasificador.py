@@ -34,8 +34,6 @@ class Clasificador(object):
     # TODO: implementar
     def error(self, datos, pred):
         # Aqui se compara la prediccion (pred) con las clases reales y se calcula el error
-
-        # Aqui se compara la prediccion (pred) con las clases reales y se calcula el error
         errores = 0
         Elems = datos.shape[0]
 
@@ -45,7 +43,6 @@ class Clasificador(object):
         for i in range(Elems):
             if datos[i][-1] != pred[i]:
                 errores += 1
-
 
         return (errores / float(Elems))
 
@@ -265,12 +262,11 @@ class ClasificadorVecinosProximos(Clasificador):
 
 #########################################################################
 class ClasificadorRegresionLogistica(Clasificador):
-    datostrain = None
-    W=None
 
     def __init__(self, nEpocas=0, cteAprendizaje=1):
         self.nEpocas = nEpocas
         self.cteAprendizaje = cteAprendizaje
+        self.W = None
 
     def entrenamiento(self, datostrain, atributosDiscretos=None, diccionario=None,laplace=None):
         numColumnas = datostrain.shape[1]
