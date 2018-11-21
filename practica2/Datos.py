@@ -74,8 +74,8 @@ class Datos(object):
         #
         # for i in range(filas):
         #     data[i] = self.datos[idx[i]]
-
-        return self.datos[idx]
+        # return self.datos[idx]
+        return np.take(self.datos,idx,axis=0)
 
 
     def calcularMediasDesv(self,datostrain):

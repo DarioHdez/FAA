@@ -22,7 +22,6 @@ class EstrategiaParticionado(object):
     # Atributos: deben rellenarse adecuadamente para cada estrategia concreta: nombreEstrategia, numeroParticiones, listaParticiones. Se pasan en el constructor
     nombreEstrategia = ""
     numeroParticiones = 0
-    particiones = []
 
     @abstractmethod
     def creaParticiones(self, datos, seed=None):
@@ -32,7 +31,8 @@ class EstrategiaParticionado(object):
 #####################################################################################################
 
 class ValidacionSimple(EstrategiaParticionado):
-
+    def __init__(self, nfolds=10):
+        self.particiones = []
     # Crea particiones segun el metodo tradicional de division de los datos segun el porcentaje deseado.
     # Devuelve una lista de particiones (clase Particion)
     def creaParticiones(self, datos, seed=None):
@@ -56,10 +56,9 @@ class ValidacionSimple(EstrategiaParticionado):
 #####################################################################################################
 class ValidacionCruzada(EstrategiaParticionado):
 
-
     def __init__(self, nfolds=10):
         self.nfolds = nfolds
-
+        self.particiones = []
 
     # Crea particiones segun el metodo de validacion cruzada.
     # El conjunto de entrenamiento se crea con las nfolds-1 particiones y el de test con la particion restante

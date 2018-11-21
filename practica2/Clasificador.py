@@ -70,10 +70,12 @@ class Clasificador(object):
         elif (particionado.nombreEstrategia == "Validacion Cruzada"):
 
             for i in range(particionado.nfolds):
+                # print(particionado.particiones[i].indicesTrain[:10])
+                # print(particionado.particiones[i].indicesTest[:10])
                 clasificador.entrenamiento(datostrain=dataset.extraeDatos(particionado.particiones[i].indicesTrain),atributosDiscretos=dataset_atributos_discretos, diccionario=dataset_diccionario, laplace=laplace)
 
                 pred = clasificador.clasifica(datostest=dataset.extraeDatos(particionado.particiones[i].indicesTest),atributosDiscretos=dataset_atributos_discretos, diccionario=dataset_diccionario)
-                
+
                 errores.append(clasificador.error(datos=dataset.extraeDatos(particionado.particiones[i].indicesTest),pred=pred))
 
                 err = clasificador.error(datos=dataset.extraeDatos(particionado.particiones[i].indicesTest), pred=pred)
@@ -81,6 +83,7 @@ class Clasificador(object):
                 errores.append(err)
 
 
+        # particionado.particiones.clear()
         return errores;
 
         # - Para validacion cruzada: en el bucle hasta nv entrenamos el clasificador con la particion de train i
