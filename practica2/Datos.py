@@ -67,14 +67,6 @@ class Datos(object):
 
 
     def extraeDatos(self,idx):
-        # filas = len(idx)
-        # columnas = self.datos.shape[1]
-        #
-        # data = np.zeros((filas,columnas))
-        #
-        # for i in range(filas):
-        #     data[i] = self.datos[idx[i]]
-        # return self.datos[idx]
         return np.take(self.datos,idx,axis=0)
 
 
