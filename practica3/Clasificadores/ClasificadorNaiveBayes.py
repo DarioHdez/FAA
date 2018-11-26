@@ -1,6 +1,8 @@
 from Clasificadores.Clasificador import Clasificador
 import numpy as np
 import math
+from functools import reduce
+import operator
 
 class ClasificadorNaiveBayes(Clasificador):
 

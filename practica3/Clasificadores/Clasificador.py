@@ -70,9 +70,9 @@ class Clasificador(object):
         return errores;
 
 
-    def _calcularMediasDesv(datostrain):
-        indices = range(len(self.nominalAtributos))
-        indices_continuos = [n for n in indices if not self.nominalAtributos[n]]
+    def _calcularMediasDesv(self,datostrain):
+        indices = range(len(self.nominalAtributos)) # Esto ya no existe
+        indices_continuos = [n for n in indices if not self.nominalAtributos[n]] # Esto tampoco
 
         self.medias = [0]*len(self.nominalAtributos)
         self.desviaciones = [0]*len(self.nominalAtributos)
@@ -88,7 +88,7 @@ class Clasificador(object):
                 self.medias[i] = None
                 self.desviaciones[i] = None
 
-    def _normalizarDatos(datos=None):
+    def _normalizarDatos(self,datos=None):
         for i in range(len(self.medias)):
             if not self.medias[i] == None:
                 column = np.array(self.datos[:,i])
