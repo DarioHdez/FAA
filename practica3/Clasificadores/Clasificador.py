@@ -3,8 +3,7 @@ from abc import ABCMeta, abstractmethod
 import sys
 from functools import reduce
 
-import EstrategiaParticionado
-import math
+from Estrategias import EstrategiaParticionado, ValidacionSimple,ValidacionCruzada,ValidacionBootstrap
 import operator
 import numpy as np
 from scipy.special import expit

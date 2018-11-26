@@ -1,4 +1,6 @@
-from Clasificador import Clasificador
+from Clasificadores.Clasificador import Clasificador
+import numpy as np
+import math
 
 class ClasificadorNaiveBayes(Clasificador):
 

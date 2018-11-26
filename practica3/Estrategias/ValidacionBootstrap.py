@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from EstrategiaParticionado import EstrategiaParticionado
+from Estrategias.EstrategiaParticionado import EstrategiaParticionado
+from Estrategias.Particion import Particion
 import numpy
 import random
 

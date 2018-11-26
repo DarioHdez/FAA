@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from abc import ABCMeta, abstractmethod
-from Particion import Particion
 
 class EstrategiaParticionado(object):
     # Clase abstracta
