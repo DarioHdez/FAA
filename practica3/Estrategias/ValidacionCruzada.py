@@ -9,6 +9,7 @@ class ValidacionCruzada(EstrategiaParticionado):
     def __init__(self, nfolds=10):
         self.nombreEstrategia = 'Validacion Cruzada'
         self.nfolds = nfolds
+        self.numeroParticiones = nfolds
         self.particiones = []
 
     # Crea particiones segun el metodo de validacion cruzada.
