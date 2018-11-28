@@ -28,7 +28,6 @@ class Clasificador(object):
         pass
 
     # Obtiene el numero de aciertos y errores para calcular la tasa de fallo
-    # TODO: implementar
     def error(self, datos, pred):
         # Aqui se compara la prediccion (pred) con las clases reales y se calcula el error
         errores = 0
@@ -53,7 +52,7 @@ class Clasificador(object):
         errores = []
 
         if normalizacion:
-            _calcularMediasDesv(datostrain=dataset.extraeDatos(particionado.particiones[-1].indicesTrain))
+            _calcularMediasDesv(datostrain=dataset)
             _normalizarDatos(dataset)
 
         for i in range(numPart):
@@ -70,17 +69,17 @@ class Clasificador(object):
         return errores;
 
 
-    def _calcularMediasDesv(self,datostrain):
-        indices = range(len(self.nominalAtributos)) # Esto ya no existe
-        indices_continuos = [n for n in indices if not self.nominalAtributos[n]] # Esto tampoco
+    def _calcularMediasDesv(self,dataset):
+        indices = range(len(dataset.nominalAtributos)) # Esto ya no existe
+        indices_continuos = [n for n in indices if not dataset.nominalAtributos[n]] # Esto tampoco
 
-        self.medias = [0]*len(self.nominalAtributos)
-        self.desviaciones = [0]*len(self.nominalAtributos)
+        self.medias = [0]*len(dataset.nominalAtributos)
+        self.desviaciones = [0]*len(dataset.nominalAtributos)
 
-        for i in range(len(self.nominalAtributos)):
+        for i in range(len(dataset.nominalAtributos)):
             if i in indices_continuos:
 
-                column = np.array(datostrain[:,i])
+                column = np.array(dataset.data[:,i])
 
                 self.medias[i] = np.mean(column)
                 self.desviaciones[i] = np.std(column)
@@ -91,7 +90,7 @@ class Clasificador(object):
     def _normalizarDatos(self,datos=None):
         for i in range(len(self.medias)):
             if not self.medias[i] == None:
-                column = np.array(self.datos[:,i])
+                column = np.array(datos.datos[:,i])
 
                 media_atributo = self.medias[i]
                 desviacion_atributo = self.desviaciones[i]
@@ -102,4 +101,4 @@ class Clasificador(object):
                 for j in list(column):
                     normalized_data.append((j - media_atributo)/desviacion_atributo)
 
-                self.datos[:,i] = normalized_data
+                datos.datos[:,i] = normalized_data
