@@ -1,11 +1,11 @@
 
-
 class Intervalo(object):
 
-    def __init__(self,Id,maximo,minimo):
+    def __init__(self,Id,minimo,maximo):
         self.id = Id
         self.maximo = maximo
         self.minimo = minimo
+
 
 
     def esMio(self,valor):

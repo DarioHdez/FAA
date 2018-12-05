@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5eaf2341-a33f-40b1-aa1b-e80d67c59d3d" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/FAA.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/FAA.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/practica3/AlgoritmosGeneticos.py" beforeDir="false" afterPath="$PROJECT_DIR$/practica3/Clasificadores/ClasificadorAlgoritmosGeneticos.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/practica3/.ipynb_checkpoints/P3_10-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/practica3/.ipynb_checkpoints/P3_10-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/practica3/Clases_AG/Condicion.py" beforeDir="false" afterPath="$PROJECT_DIR$/practica3/Clases_AG/Condicion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/practica3/Clases_AG/Intervalo.py" beforeDir="false" afterPath="$PROJECT_DIR$/practica3/Clases_AG/Intervalo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/practica3/Clases_AG/IntervalosClase.py" beforeDir="false" afterPath="$PROJECT_DIR$/practica3/Clases_AG/IntervalosClase.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/practica3/Clases_AG/IntervalosDataSet.py" beforeDir="false" afterPath="$PROJECT_DIR$/practica3/Clases_AG/IntervalosDataSet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/practica3/Clases_AG/Regla.py" beforeDir="false" afterPath="$PROJECT_DIR$/practica3/Clases_AG/Regla.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/practica3/P3_10.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/practica3/P3_10.ipynb" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,44 +18,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/practica3/Clases_AG/Condicion.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/practica3/Clases_AG/Regla.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/practica3/Clases_AG/Intervalo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="26" lean-forward="true" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
+            <state relative-caret-position="165">
+              <caret line="11" column="90" lean-forward="true" selection-start-line="11" selection-start-column="90" selection-end-line="11" selection-end-column="90" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/practica3/Clases_AG/Individuo.py">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/practica3/Clases_AG/IntervalosDataSet.py">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" column="33" lean-forward="true" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/practica3/Clases_AG/IntervalosClase.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="25" column="68" lean-forward="true" selection-start-line="25" selection-start-column="68" selection-end-line="25" selection-end-column="68" />
+            <state relative-caret-position="120">
+              <caret line="8" column="24" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="24" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -85,11 +75,13 @@
         <option value="$PROJECT_DIR$/practica3/AlgoritmosGeneticos.py" />
         <option value="$PROJECT_DIR$/practica3/Clases/Regla.py" />
         <option value="$PROJECT_DIR$/practica3/Clases/Condicion.py" />
-        <option value="$PROJECT_DIR$/practica3/Clases_AG/Condicion.py" />
         <option value="$PROJECT_DIR$/practica3/Clases_AG/Individuo.py" />
         <option value="$PROJECT_DIR$/practica3/Clases_AG/TablaIntervalos.py" />
-        <option value="$PROJECT_DIR$/practica3/Clases_AG/Intervalo.py" />
+        <option value="$PROJECT_DIR$/practica3/Clases_AG/IntervalosDataSet.py" />
         <option value="$PROJECT_DIR$/practica3/Clases_AG/IntervalosClase.py" />
+        <option value="$PROJECT_DIR$/practica3/Clases_AG/Intervalo.py" />
+        <option value="$PROJECT_DIR$/practica3/Clases_AG/Condicion.py" />
+        <option value="$PROJECT_DIR$/practica3/Clases_AG/Regla.py" />
       </list>
     </option>
   </component>
@@ -125,6 +117,18 @@
               <item name="FAA" type="462c0819:PsiDirectoryNode" />
               <item name="practica3" type="462c0819:PsiDirectoryNode" />
               <item name="Clases_AG" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FAA" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FAA" type="462c0819:PsiDirectoryNode" />
+              <item name="practica3" type="462c0819:PsiDirectoryNode" />
+              <item name="Clasificadores" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FAA" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FAA" type="462c0819:PsiDirectoryNode" />
+              <item name="practica3" type="462c0819:PsiDirectoryNode" />
+              <item name="Datos" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -294,16 +298,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/practica3/Clasificadores/Clasificador.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="21" column="21" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="21" />
-          <folding>
-            <element signature="e#24#63#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/practica3/Main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -324,8 +318,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/practica3/Clases_AG/Regla.py">
+    <entry file="file://$PROJECT_DIR$/practica3/Clases_AG/Individuo.py">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/practica3/Datos/Datos.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="67" column="43" lean-forward="true" selection-start-line="67" selection-start-column="43" selection-end-line="67" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/practica3/Clasificadores/Clasificador.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-270">
+          <caret line="21" column="21" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="21" />
+          <folding>
+            <element signature="e#24#63#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/practica3/Clases_AG/Intervalo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="24" lean-forward="true" selection-start-line="1" selection-start-column="24" selection-end-line="1" selection-end-column="24" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/practica3/Clases_AG/Condicion.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -334,26 +352,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/practica3/Clases_AG/Individuo.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/practica3/Clases_AG/IntervalosDataSet.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/practica3/Clases_AG/Intervalo.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
-          <caret line="12" column="26" lean-forward="true" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
+          <caret line="12" column="33" lean-forward="true" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/practica3/Clases_AG/IntervalosClase.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="25" column="68" lean-forward="true" selection-start-line="25" selection-start-column="68" selection-end-line="25" selection-end-column="68" />
+        <state relative-caret-position="120">
+          <caret line="8" column="24" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="24" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/practica3/Clases_AG/Regla.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="90" lean-forward="true" selection-start-line="11" selection-start-column="90" selection-end-line="11" selection-end-column="90" />
         </state>
       </provider>
     </entry>
