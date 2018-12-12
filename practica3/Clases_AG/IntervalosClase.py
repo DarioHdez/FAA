@@ -12,22 +12,22 @@ class IntervalosClase(object):
         xmin = min(columna)
         amplitudIntervalo = np.around((xmax - xmin)/self.nintervalos,decimals=3)
 
-        # print('Amplitud de clase: ',amplitudIntervalo)
+         # print('Amplitud de clase: ',amplitudIntervalo)
 
 
         old = xmin+amplitudIntervalo
         Id = 1
-        self.Intervalos.append(Intervalo(Id,old,xmin))
+        self.Intervalos.append(Intervalo(Id,xmin,old))
         # print(self.Intervalos[0].maximo,self.Intervalos[0].minimo)
 
         for n in range(self.nintervalos-2):
             Id += 1
             new = old+amplitudIntervalo
-            i = Intervalo(Id,new,old)
+            i = Intervalo(Id,old,new)
             old = new
             self.Intervalos.append(i)
 
-        self.Intervalos.append(Intervalo(self.nintervalos,xmax,old))
+        self.Intervalos.append(Intervalo(self.nintervalos,old,xmax))
 
 
     def getIntervalo(self,valor):

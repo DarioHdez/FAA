@@ -7,7 +7,6 @@ class Intervalo(object):
         self.minimo = minimo
 
 
-
     def esMio(self,valor):
         if valor <= self.maximo and valor >= self.minimo: return True
         else: return False
