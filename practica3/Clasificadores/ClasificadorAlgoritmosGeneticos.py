@@ -79,17 +79,18 @@ class ClasificadorAG(Clasificador):
             print('P1 nReglas: ',p1.numReglas,'\nP2 nReglas: ',p2.numReglas)
             if len(p1.reglas) != 1 or len(p2.reglas) != 1:
                 if prob_cruce <= self.probCruce:
-                    corte_p1 = randint(1,p1.numReglas)
-                    # if corte_p1 == 0:
+                    corte = randint(1,min(p1.numReglas,p2.numReglas))
+                    # if corte == 0:
                     #     corte_p2 = randint(1,p2.numReglas)
-                    #     vastago1.reglas,vastago2.reglas = p1.reglas[:corte_p1]+p2.reglas[corte_p2:],p1.reglas[corte_p1:]+p2.reglas[:corte_p2]
+                    #     vastago1.reglas,vastago2.reglas = p1.reglas[:corte]+p2.reglas[corte_p2:],p1.reglas[corte:]+p2.reglas[:corte_p2]
                     # else:
-                    corte_p2 = randint(1,p2.numReglas)
+                    # corte = randint(1,p2.numReglas)
 
                     if p1.numReglas != 1 and p2.numReglas != 1 and vastago1.numReglas <=self.nMaxReglas and vastago2.numReglas <=self.nMaxReglas:
-                        vastago1.reglas,vastago2.reglas = p1.reglas[:corte_p1]+p2.reglas[corte_p2:],p1.reglas[corte_p1:]+p2.reglas[:corte_p2]
+                        vastago1.reglas,vastago2.reglas = p1.reglas[:corte]+p2.reglas[corte:],p1.reglas[corte:]+p2.reglas[:corte]
                     else:
                         vastago1.reglas,vastago2.reglas= p1.reglas+p2.reglas, p1.reglas+p2.reglas
+
                     vastago1.numero_reglas(); vastago2.numero_reglas()
                     print('V1 nReglas: ',vastago1.numReglas,'\nV2 nReglas: ',vastago1.numReglas)
                     descendencia.append(vastago1);descendencia.append(vastago2)
@@ -109,15 +110,15 @@ class ClasificadorAG(Clasificador):
                             entero = randint(0,self.Intervalos.tablas[0].nintervalos)
 
 
-    def _seleccion_supervivientes(self,individuos,num_super=5):
-        fitness=[]
-        for ind in individuos:
-            fitness.append(ind.fitness)
-
-        index_mejores = np.array(fitness).argsort()[-num_super:][::-1]
-
-        mejores_padres = np.array(individuos)[index_mejores].tolist()
-        return mejores_padres
+    # def _seleccion_supervivientes(self,individuos,num_super=5):
+    #     fitness=[]
+    #     for ind in individuos:
+    #         fitness.append(ind.fitness)
+    #
+    #     index_mejores = np.array(fitness).argsort()[-num_super:][::-1]
+    #
+    #     mejores_padres = np.array(individuos)[index_mejores].tolist()
+    #     return mejores_padres
 
     def _selecionar_mejor_individuo(self,individuos):
         fitness = []
@@ -128,8 +129,6 @@ class ClasificadorAG(Clasificador):
         fitness_medio = sum(fitness) / len(individuos)
 
         self.mejoresndividuos.append(mejor_individuo)
-
-
 
     def entrenamiento(self, datostrain, atributosDiscretos=None, diccionario=None,laplace=None):
 
@@ -173,10 +172,8 @@ class ClasificadorAG(Clasificador):
             #     fitness = fitness(datostrain, individuos)
             #     self.update_stats(individuos, fitness)
 
-            supervivientes=self._seleccion_supervivientes(individuos,5)
-
-
-
+            # supervivientes=self._seleccion_supervivientes(individuos,5)
+            supervivientes=descendientes+elite
             # print(len(supervivientes))
             if generacion >= self.nMaxGeneraciones:
                 break
@@ -184,7 +181,7 @@ class ClasificadorAG(Clasificador):
                 generacion += 1
 
         self.Poblacion = individuos
-        self.mejorindividuo=self.mejoresndividuos[-1]
+        # self.mejorindividuo=self.mejoresndividuos[-1]
 
 
 
@@ -192,13 +189,9 @@ class ClasificadorAG(Clasificador):
     def clasifica(self, datostest, atributosDiscretos=None, diccionario=None):
 
         datos_discretizados = self._discretizar_elementos(datostest)
-        for dato in datos_discretizados:
+        mejorindividuo = sorted(individuos, key=attrgetter('fitness'),reverse=True)[0]
 
-            #coger clase mejor individuo y añadir a prediccionb
-            self.mejorindividuo.reglas[-1]
-
-        pass
-
+        return mejorindivuo.prediccion_test(datostest)
 
 
 #########################################################################

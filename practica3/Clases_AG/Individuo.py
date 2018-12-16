@@ -16,7 +16,6 @@ class Individuo(object):
         aciertos = 0
         numdatos = datostrain.shape[0]
 
-
         count = Counter(list(datostrain[:,-1]))
         priori = int(count.most_common()[0][0])
 
@@ -47,3 +46,35 @@ class Individuo(object):
 
     def numero_reglas(self):
         self.numReglas = len(self.reglas)
+
+    def prediccion_test(self,datostest):
+        aciertos = 0
+        numdatos = datostrain.shape[0]
+
+        count = Counter(list(datostrain[:,-1]))
+        priori = int(count.most_common()[0][0])
+
+        predicciones = {'ceros':0,'unos':0}
+        mayoritario = 2 # dato inicial, no tiene significado
+        prediction = []
+
+        for dato in datostest:
+            for regla in self.reglas:
+                if regla.comparar(dato):
+                    predicciones['unos'] += 1
+                else:
+                    predicciones['ceros'] +=1
+
+            if predicciones['ceros'] > predicciones['unos']:
+                mayoritario = 0
+            elif predicciones['ceros'] < predicciones['unos']:
+                mayoritario = 1
+            else:
+                mayoritario = priori
+
+            predicciones['ceros'] = 0
+            predicciones['unos'] = 0
+
+            prediction.append(mayoritario)
+
+        return prediction
