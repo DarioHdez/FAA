@@ -27,6 +27,8 @@ class ClasificadorAG(Clasificador):
         self.probMutacion = probMutacion
         self.nMiembrosElite = ceil(self.nIndividuos*0.02/2)*2
         self.Poblacion = []
+        self.mejoresndividuos=[]
+        self.mejorindividuo=0
 
 
     def _genera_individuos(self,tampoblacion):
@@ -107,6 +109,28 @@ class ClasificadorAG(Clasificador):
                             entero = randint(0,self.Intervalos.tablas[0].nintervalos)
 
 
+    def _seleccion_supervivientes(self,individuos,num_super=5):
+        fitness=[]
+        for ind in individuos:
+            fitness.append(ind.fitness)
+
+        index_mejores = np.array(fitness).argsort()[-num_super:][::-1]
+
+        mejores_padres = np.array(individuos)[index_mejores].tolist()
+        return mejores_padres
+
+    def _selecionar_mejor_individuo(self,individuos):
+        fitness = []
+        for ind in individuos:
+            fitness.append(ind.fitness)
+
+        mejor_individuo = individuos[fitness.index(max(fitness))]
+        fitness_medio = sum(fitness) / len(individuos)
+
+        self.mejoresndividuos.append(mejor_individuo)
+
+
+
     def entrenamiento(self, datostrain, atributosDiscretos=None, diccionario=None,laplace=None):
 
         # Poblacion Inicial
@@ -122,9 +146,13 @@ class ClasificadorAG(Clasificador):
             # Fitness
             self._fitness(datostrain=datostrain,individuos=individuos)
 
+            self._selecionar_mejor_individuo(individuos)
+
+
+
             # Sacamos la elite
             elite = sorted(individuos, key=attrgetter('fitness'),reverse=True)[:self.nMiembrosElite]
-            print('Best fitness so far: ', elite[0].fitness,'\n')
+           # print('Best fitness so far: ', elite[0].fitness,'\n')
             if elite[0].fitness >= 0.95:
                 break
             # for i in elite:
@@ -145,8 +173,10 @@ class ClasificadorAG(Clasificador):
             #     fitness = fitness(datostrain, individuos)
             #     self.update_stats(individuos, fitness)
 
-            supervivientes = descendientes+elite
-            individuos = supervivientes
+            supervivientes=self._seleccion_supervivientes(individuos,5)
+
+
+
             # print(len(supervivientes))
             if generacion >= self.nMaxGeneraciones:
                 break
@@ -154,8 +184,19 @@ class ClasificadorAG(Clasificador):
                 generacion += 1
 
         self.Poblacion = individuos
+        self.mejorindividuo=self.mejoresndividuos[-1]
+
+
+
 
     def clasifica(self, datostest, atributosDiscretos=None, diccionario=None):
+
+        datos_discretizados = self._discretizar_elementos(datostest)
+        for dato in datos_discretizados:
+
+            #coger clase mejor individuo y añadir a prediccionb
+            self.mejorindividuo.reglas[-1]
+
         pass
 
 
