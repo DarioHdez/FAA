@@ -44,3 +44,6 @@ class Individuo(object):
             predicciones['unos'] = 0
 
         self.fitness = aciertos*1./numdatos
+
+    def numero_reglas(self):
+        self.numReglas = len(self.reglas)
