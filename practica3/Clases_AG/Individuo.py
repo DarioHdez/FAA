@@ -6,6 +6,7 @@ from collections import Counter
 
 class Individuo(object):
 
+
     def __init__(self,reglasIni,Intervalos):
         self.numReglas = randint(1,reglasIni)
         self.reglas = [Regla(Intervalos) for n in range(self.numReglas)]
@@ -27,6 +28,7 @@ class Individuo(object):
                 if regla.comparar(dato):
                     predicciones['unos'] += 1
                 else:
+                    regla.conclusion = 0
                     predicciones['ceros'] += 1
 
             if predicciones['ceros'] > predicciones['unos']:
@@ -42,7 +44,7 @@ class Individuo(object):
             predicciones['ceros'] = 0
             predicciones['unos'] = 0
 
-        self.fitness = aciertos*1./numdatos
+        self.fitness = np.around(aciertos*1./numdatos,3)
 
     def numero_reglas(self):
         self.numReglas = len(self.reglas)

@@ -22,7 +22,7 @@ class ClasificadorAG(Clasificador):
         self.nMaxGeneraciones = numgeneraciones
         self.nMaxReglas = maxreglas
         self.Intervalos = IntervalosDataSet(dataset.datos)
-        self.nMaxReglasIniciales = 2
+        # self.nMaxReglasIniciales = 2
         self.probCruce = probCruce
         self.probMutacion = probMutacion
         self.nMiembrosElite = ceil(self.nIndividuos*0.02/2)*2
@@ -32,7 +32,7 @@ class ClasificadorAG(Clasificador):
 
 
     def _genera_individuos(self,tampoblacion):
-        return [Individuo(reglasIni=self.nMaxReglasIniciales,Intervalos=self.Intervalos) for n in range(tampoblacion)]
+        return [Individuo(reglasIni=self.nMaxReglas,Intervalos=self.Intervalos) for n in range(tampoblacion)]
 
     def _transformar(self,dato):
         columnas = len(dato)-1
@@ -58,12 +58,18 @@ class ClasificadorAG(Clasificador):
 
     def _seleccion_progenitores(self,individuos):
         total = sum([n.fitness for n in individuos])
+        # print('Total: ',total)
         probabIndividuo = [n.fitness/total for n in individuos]
+
+        # print(np.array(probabIndividuo))
         # print(probabIndividuo)
         progenitores = []
         for n in range(self.nIndividuos-self.nMiembrosElite):
             progenitores.append(np.random.choice(individuos,p=probabIndividuo))
 
+        probabProg = [n.fitness/total for n in progenitores]
+        # print(np.array(probabProg))
+        # print('\n\n')
         return progenitores
 
     def _cruce(self,progenitores):
@@ -73,12 +79,14 @@ class ClasificadorAG(Clasificador):
 
         for (p1,p2) in zip(progenitores[::2],progenitores[1::2]):
             prob_cruce = random()
+            # print('Random devuelve: ',prob_cruce)
             vastago1 = Individuo(reglasIni=1,Intervalos=self.Intervalos)
             vastago2 = Individuo(reglasIni=1,Intervalos=self.Intervalos)
             # print('Is ',prob_cruce,'lower than',self.probCruce)
             print('P1 nReglas: ',p1.numReglas,'\nP2 nReglas: ',p2.numReglas)
             if len(p1.reglas) != 1 or len(p2.reglas) != 1:
                 if prob_cruce <= self.probCruce:
+                    # print('Cruce')
                     corte = randint(1,min(p1.numReglas,p2.numReglas))
                     # if corte == 0:
                     #     corte_p2 = randint(1,p2.numReglas)
@@ -86,7 +94,7 @@ class ClasificadorAG(Clasificador):
                     # else:
                     # corte = randint(1,p2.numReglas)
 
-                    if p1.numReglas != 1 and p2.numReglas != 1 and vastago1.numReglas <=self.nMaxReglas and vastago2.numReglas <=self.nMaxReglas:
+                    if vastago1.numReglas <= self.nMaxReglas and vastago2.numReglas <= self.nMaxReglas:
                         vastago1.reglas,vastago2.reglas = p1.reglas[:corte]+p2.reglas[corte:],p1.reglas[corte:]+p2.reglas[:corte]
                     else:
                         vastago1.reglas,vastago2.reglas= p1.reglas+p2.reglas, p1.reglas+p2.reglas
@@ -107,7 +115,8 @@ class ClasificadorAG(Clasificador):
             for regla in individuo.reglas:
                 for condicion in regla.condiciones:
                         if random() <= self.probMutacion:
-                            entero = randint(0,self.Intervalos.tablas[0].nintervalos)
+                            # print('Muto')
+                            condicion = randint(0,self.Intervalos.tablas[0].nintervalos)
 
 
     # def _seleccion_supervivientes(self,individuos,num_super=5):
@@ -126,7 +135,7 @@ class ClasificadorAG(Clasificador):
             fitness.append(ind.fitness)
 
         mejor_individuo = individuos[fitness.index(max(fitness))]
-        fitness_medio = sum(fitness) / len(individuos)
+        # fitness_medio = sum(fitness) / len(individuos)
 
         self.mejoresndividuos.append(mejor_individuo)
 
@@ -141,23 +150,26 @@ class ClasificadorAG(Clasificador):
         #         print(regla.condiciones)
         #     print('\n')
         while True:
-            print('Generacion: ',generacion)
+
+            # print('Generacion: ',generacion)
             # Fitness
             self._fitness(datostrain=datostrain,individuos=individuos)
 
             self._selecionar_mejor_individuo(individuos)
 
-
+            # print('Mejor de Generacion',generacion,self.mejoresndividuos[generacion].fitness)
 
             # Sacamos la elite
             elite = sorted(individuos, key=attrgetter('fitness'),reverse=True)[:self.nMiembrosElite]
+            # print('Fitness de la raza superior: ',elite[0].fitness)
            # print('Best fitness so far: ', elite[0].fitness,'\n')
             if elite[0].fitness >= 0.95:
+                print('Fitness superior a 0.95,', elite[0].fitness)
                 break
             # for i in elite:
-            #     print(i.fitness,i.numReglas)
-            # for i in individuos:
             #     print(i.fitness)
+            # for i in individuos:
+            #     print(i.fitness,i.numReglas)
 
             # Seleccion de progenitoress
             progenitores = self._seleccion_progenitores(individuos)
@@ -176,9 +188,12 @@ class ClasificadorAG(Clasificador):
             supervivientes=descendientes+elite
             # print(len(supervivientes))
             if generacion >= self.nMaxGeneraciones:
+                print('Max generaciones alcanzada', elite[0].fitness)
                 break
             else:
                 generacion += 1
+
+            individuos = supervivientes
 
         self.Poblacion = individuos
         # self.mejorindividuo=self.mejoresndividuos[-1]

@@ -9,7 +9,7 @@ class Regla(object):
         self.conclusion =  1
 
         for i in range(self.tam):
-            self.condiciones.append(np.random.choice([0,np.random.randint(1,intervalosDataset.tablas[i].nintervalos+1)],p=[0.9,0.1]))
+            self.condiciones.append(np.random.choice([0,np.random.randint(1,intervalosDataset.tablas[i].nintervalos+1)],p=[0.95,0.05]))
             # self.condiciones.append(0)
 
 
