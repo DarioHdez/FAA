@@ -5,6 +5,7 @@ from Clases_AG.Intervalo import Intervalo
 class IntervalosDataSet(object):
 
     def __init__(self,dataset):
+        super().__init__(intervalosDataset)
         self.ntablas = dataset.shape[1]-1
         self.tablas = []
 
