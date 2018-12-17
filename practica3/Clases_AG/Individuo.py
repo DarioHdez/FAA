@@ -51,7 +51,7 @@ class Individuo(object):
     def prediccion_test(self,datostest):
 
         numdatos = datostest.shape[0]
-
+       
         votantes = []
         prediction = []
 
@@ -66,7 +66,10 @@ class Individuo(object):
                 mayoritario = int(count.most_common()[0][0])
 
                 prediction.append(mayoritario)
-
+            else:
+                count = Counter(list(datostest[:,-1]))
+                priori = int(count.most_common()[0][0])
+                prediction.append(priori)
             votantes = []
 
         return np.array(prediction)
