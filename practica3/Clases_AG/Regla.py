@@ -6,10 +6,10 @@ class Regla(object):
         self.tam = intervalosDataset.ntablas
 
         self.condiciones = []
-        self.conclusion =  1
+        self.conclusion =  np.random.randint(0,2)
 
         for i in range(self.tam):
-            self.condiciones.append(np.random.choice([0,np.random.randint(1,intervalosDataset.tablas[i].nintervalos+1)],p=[0.95,0.05]))
+            self.condiciones.append(np.random.choice([0,np.random.randint(1,intervalosDataset.tablas[i].nintervalos+1)],p=[0.90,0.1]))
             # self.condiciones.append(0)
 
 

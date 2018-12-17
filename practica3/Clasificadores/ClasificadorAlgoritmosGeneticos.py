@@ -83,7 +83,7 @@ class ClasificadorAG(Clasificador):
             vastago1 = Individuo(reglasIni=1,Intervalos=self.Intervalos)
             vastago2 = Individuo(reglasIni=1,Intervalos=self.Intervalos)
             # print('Is ',prob_cruce,'lower than',self.probCruce)
-            print('P1 nReglas: ',p1.numReglas,'\nP2 nReglas: ',p2.numReglas)
+            # print('P1 nReglas: ',p1.numReglas,'\nP2 nReglas: ',p2.numReglas)
             if len(p1.reglas) != 1 or len(p2.reglas) != 1:
                 if prob_cruce <= self.probCruce:
                     # print('Cruce')
@@ -100,7 +100,7 @@ class ClasificadorAG(Clasificador):
                         vastago1.reglas,vastago2.reglas= p1.reglas+p2.reglas, p1.reglas+p2.reglas
 
                     vastago1.numero_reglas(); vastago2.numero_reglas()
-                    print('V1 nReglas: ',vastago1.numReglas,'\nV2 nReglas: ',vastago1.numReglas)
+                    # print('V1 nReglas: ',vastago1.numReglas,'\nV2 nReglas: ',vastago1.numReglas)
                     descendencia.append(vastago1);descendencia.append(vastago2)
                 else:
                     descendencia.append(p1);descendencia.append(p2)
@@ -112,6 +112,8 @@ class ClasificadorAG(Clasificador):
     def _mutacion(self,descendientes):
         seed()
         for individuo in descendientes:
+            if random() <= self.probMutacion and individuo.numReglas < self.nMaxReglas:
+                individuo.reglas.append(Regla(self.Intervalos))
             for regla in individuo.reglas:
                 for condicion in regla.condiciones:
                         if random() <= self.probMutacion:
@@ -129,15 +131,16 @@ class ClasificadorAG(Clasificador):
     #     mejores_padres = np.array(individuos)[index_mejores].tolist()
     #     return mejores_padres
 
-    def _selecionar_mejor_individuo(self,individuos):
-        fitness = []
-        for ind in individuos:
-            fitness.append(ind.fitness)
-
-        mejor_individuo = individuos[fitness.index(max(fitness))]
-        # fitness_medio = sum(fitness) / len(individuos)
-
-        self.mejoresndividuos.append(mejor_individuo)
+    def selecionar_mejor_individuo(self):
+        # fitness = []
+        # for ind in individuos:
+        #     fitness.append(ind.fitness)
+        #
+        # mejor_individuo = individuos[fitness.index(max(fitness))]
+        # # fitness_medio = sum(fitness) / len(individuos)
+        #
+        # self.mejoresndividuos.append(mejor_individuo)
+        return sorted(self.Poblacion, key=attrgetter('fitness'),reverse=True)[0]
 
     def entrenamiento(self, datostrain, atributosDiscretos=None, diccionario=None,laplace=None):
 
@@ -155,7 +158,7 @@ class ClasificadorAG(Clasificador):
             # Fitness
             self._fitness(datostrain=datostrain,individuos=individuos)
 
-            self._selecionar_mejor_individuo(individuos)
+            # self._selecionar_mejor_individuo(individuos)
 
             # print('Mejor de Generacion',generacion,self.mejoresndividuos[generacion].fitness)
 
@@ -186,9 +189,12 @@ class ClasificadorAG(Clasificador):
 
             # supervivientes=self._seleccion_supervivientes(individuos,5)
             supervivientes=descendientes+elite
+
+            print('Generacion: ',generacion,'\n\tBest fitness: ', elite[0].fitness)
+
             # print(len(supervivientes))
             if generacion >= self.nMaxGeneraciones:
-                print('Max generaciones alcanzada', elite[0].fitness)
+                print('Max generaciones alcanzada.\n\tBest fitness: ', elite[0].fitness)
                 break
             else:
                 generacion += 1
@@ -196,6 +202,7 @@ class ClasificadorAG(Clasificador):
             individuos = supervivientes
 
         self.Poblacion = individuos
+        self.selecionar_mejor_individuo()
         # self.mejorindividuo=self.mejoresndividuos[-1]
 
 
@@ -204,9 +211,9 @@ class ClasificadorAG(Clasificador):
     def clasifica(self, datostest, atributosDiscretos=None, diccionario=None):
 
         datos_discretizados = self._discretizar_elementos(datostest)
-        mejorindividuo = sorted(individuos, key=attrgetter('fitness'),reverse=True)[0]
-
-        return mejorindivuo.prediccion_test(datostest)
+        Ario = sorted(self.Poblacion, key=attrgetter('fitness'),reverse=True)[0]
+        print('Fitness Ario: ',Ario.fitness)
+        return Ario.prediccion_test(datostest)
 
 
 #########################################################################
