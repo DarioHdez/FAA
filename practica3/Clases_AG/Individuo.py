@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+from Clases_AG.Regla import Regla
 from Clases_AG.Regla_numerica import Regla_numerica
+from Clases_AG.Regla_binaria import Regla_binaria
 from random import randint
 import numpy as np
 from collections import Counter
@@ -7,9 +9,9 @@ from collections import Counter
 class Individuo(object):
 
 
-    def __init__(self,reglasIni,Intervalos):
+    def __init__(self,reglasIni,Intervalos,tipoRegla=Regla_numerica):
         self.numReglas = randint(1,reglasIni)
-        self.reglas = [Regla_numerica(Intervalos) for n in range(self.numReglas)]
+        self.reglas = [tipoRegla(Intervalos) for n in range(self.numReglas)]
         self.fitness = 0
 
 
@@ -25,8 +27,10 @@ class Individuo(object):
         # mayoritario = 2
 
         for dato in datostrain:
+            # print('Dato a comparar:\t',dato)
             for regla in self.reglas:
                 if regla.comparar(dato):
+                    # print('Regla acierta')
                     votantes.append(regla.conclusion)
 
             if votantes:
