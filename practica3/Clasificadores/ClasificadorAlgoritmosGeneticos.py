@@ -3,9 +3,10 @@ import numpy as np
 from Estrategias.ValidacionCruzada import ValidacionCruzada
 from Clases_AG.IntervalosDataSet import IntervalosDataSet
 from Clases_AG.Individuo import Individuo
-from Clases_AG.Regla import Regla
+from Clases_AG.Regla_numerica import Regla_numerica
 
 from Clasificadores.Clasificador import Clasificador
+from copy import deepcopy
 import numpy as np
 from math import ceil
 from operator import attrgetter
@@ -14,7 +15,6 @@ from random import randint,random,seed
 #########################################################################
 
 class ClasificadorAG(Clasificador):
-
 
     def __init__(self, tampoblacion,numgeneraciones,maxreglas,dataset,probCruce,probMutacion):
         super().__init__()
@@ -29,6 +29,8 @@ class ClasificadorAG(Clasificador):
         self.Poblacion = []
         self.mejoresndividuos=[]
         self.mejorindividuo=0
+        self.mejoresFitness = []
+        self.mediaFitnesPoblacion = []
 
 
     def _genera_individuos(self,tampoblacion):
@@ -113,7 +115,7 @@ class ClasificadorAG(Clasificador):
         seed()
         for individuo in descendientes:
             if random() <= self.probMutacion and individuo.numReglas < self.nMaxReglas:
-                individuo.reglas.append(Regla(self.Intervalos))
+                individuo.reglas.append(Regla_numerica(self.Intervalos))
             for regla in individuo.reglas:
                 for condicion in regla.condiciones:
                         if random() <= self.probMutacion:
@@ -164,6 +166,17 @@ class ClasificadorAG(Clasificador):
 
             # Sacamos la elite
             elite = sorted(individuos, key=attrgetter('fitness'),reverse=True)[:self.nMiembrosElite]
+            copias = []
+            for el in elite:
+                copias.append(deepcopy(el))
+            self.mejoresFitness.append(elite[0].fitness)
+
+            total = 0
+            for i in individuos:
+                total += i.fitness
+
+            self.mediaFitnesPoblacion.append(total/self.nIndividuos)
+
             # print('Fitness de la raza superior: ',elite[0].fitness)
            # print('Best fitness so far: ', elite[0].fitness,'\n')
             if elite[0].fitness >= 0.95:
@@ -188,7 +201,7 @@ class ClasificadorAG(Clasificador):
             #     self.update_stats(individuos, fitness)
 
             # supervivientes=self._seleccion_supervivientes(individuos,5)
-            supervivientes=descendientes+elite
+            supervivientes=descendientes+copias
 
             print('Generacion: ',generacion,'\n\tBest fitness: ', elite[0].fitness)
 

@@ -1,13 +1,12 @@
+from abc import ABCMeta, abstractmethod
+import sys
 import numpy as np
 
 class Regla_numerica(object):
 
-    def __init__(self,IntervalosDataset):
-        self.tam = intervalosDataset.ntablas
-        self.condiciones = []
-        self.conclusion =  np.random.randint(0,2)
+    # Clase abstracta
+    __metaclass__ = ABCMeta
 
-
-    @abstract
+    @abstractmethod
     def comparar(self,dato):
         pass

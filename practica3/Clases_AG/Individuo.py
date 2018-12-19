@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from Clases_AG.Regla import Regla
+from Clases_AG.Regla_numerica import Regla_numerica
 from random import randint
 import numpy as np
 from collections import Counter
@@ -9,7 +9,7 @@ class Individuo(object):
 
     def __init__(self,reglasIni,Intervalos):
         self.numReglas = randint(1,reglasIni)
-        self.reglas = [Regla(Intervalos) for n in range(self.numReglas)]
+        self.reglas = [Regla_numerica(Intervalos) for n in range(self.numReglas)]
         self.fitness = 0
 
 
@@ -51,7 +51,7 @@ class Individuo(object):
     def prediccion_test(self,datostest):
 
         numdatos = datostest.shape[0]
-       
+
         votantes = []
         prediction = []
 
